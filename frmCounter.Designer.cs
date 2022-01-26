@@ -211,6 +211,7 @@
             this.btnClearList.TabIndex = 18;
             this.btnClearList.Text = "Clear List";
             this.btnClearList.UseVisualStyleBackColor = true;
+            this.btnClearList.Click += new System.EventHandler(this.btnClearList_Click);
             // 
             // chkAnnotateTime
             // 

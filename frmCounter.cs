@@ -11,11 +11,11 @@ namespace Counter
         private readonly int FullHeight;
         private readonly int SmallHeight;
 
-        private Thread timeThread;
-        private ManualResetEvent mre;
-        private Stopwatch stopWatch;
+        //private Thread timeThread;
+        //private ManualResetEvent mre;
+        //private Stopwatch stopWatch;
 
-        bool isThreadRunning;
+        //bool isThreadRunning;
         public frmCounter()
         {
             InitializeComponent();
@@ -31,49 +31,59 @@ namespace Counter
             Height = SmallHeight;
 
             DisableControls();
+            //Gonna scrap the timer feature. Instead, I'll use the system timer as a way to annotate the times
+            DisableFeaturesUntilFurtherNotice();
+            //Temporaily disabling the Timer feature, I don't see a need to have this in my program
+            //stopWatch = new Stopwatch();
+            //isThreadRunning = false;
 
-            stopWatch = new Stopwatch();
-            isThreadRunning = false;
-
-            mre = new ManualResetEvent(false);
-            timeThread = new Thread(new ThreadStart(HandleStopWatchThread));
+            //mre = new ManualResetEvent(false);
+            //timeThread = new Thread(new ThreadStart(HandleStopWatchThread));
         }
 
-        private void ResetTime()
+        private void DisableFeaturesUntilFurtherNotice()
         {
-            //stop timer as well
-            if(stopWatch.IsRunning)
-            {
-                stopWatch.Reset();
+            groupBox2.Enabled = false;
+            chkAnnotateTime.Enabled = false;
+            btnResetAll.Enabled = false;
+            fileToolStripMenuItem.Enabled = false;
+        }
+
+        //private void ResetTime()
+        //{
+        //    //stop timer as well
+        //    if(stopWatch.IsRunning)
+        //    {
+        //        stopWatch.Reset();
                
-                //mre.Reset();
-                //mre.Close();
-            }
-            lblTimer.Text = Starting_Time;
-        }
+        //        //mre.Reset();
+        //        //mre.Close();
+        //    }
+        //    lblTimer.Text = Starting_Time;
+        //}
 
-        private void HandleStopWatchThread()
-        {
-            mre.WaitOne(); //hmm...
+        //private void HandleStopWatchThread()
+        //{
+        //    mre.WaitOne(); //hmm...
 
-            TimeSpan timeSpan;            
-            stopWatch.Start();
-            while(isThreadRunning)
-            {
-                timeSpan = stopWatch.Elapsed;
-                if (InvokeRequired)
-                {
-                    Invoke(new MethodInvoker(() =>
-                        lblTimer.Text = String.Format("{0:0}:{1:00}:{2:00}",
-                        timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds)));
-                }
-                else
-                    lblTimer.Text = String.Format("{0:0}:{1:00}:{2:00}",
-                        timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+        //    TimeSpan timeSpan;            
+        //    stopWatch.Start();
+        //    while(isThreadRunning)
+        //    {
+        //        timeSpan = stopWatch.Elapsed;
+        //        if (InvokeRequired)
+        //        {
+        //            Invoke(new MethodInvoker(() =>
+        //                lblTimer.Text = String.Format("{0:0}:{1:00}:{2:00}",
+        //                timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds)));
+        //        }
+        //        else
+        //            lblTimer.Text = String.Format("{0:0}:{1:00}:{2:00}",
+        //                timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
-                //mre.WaitOne(); //https://stackoverflow.com/questions/10469687/how-to-pause-resume-a-thread
-            }
-        }
+        //        //mre.WaitOne(); //https://stackoverflow.com/questions/10469687/how-to-pause-resume-a-thread
+        //    }
+        //}
 
         private void EnableControls()
         {
@@ -113,7 +123,7 @@ namespace Counter
                 listAnnotations.Items.Clear();
                 numericUpDown.Value = numericUpDown.Minimum;
 
-                ResetTime();
+                //ResetTime();
                 btnStartTime.Enabled = true;
                 DisableTimerButtons();
             }
@@ -122,7 +132,10 @@ namespace Counter
                 if(resetCount)
                     numericUpDown.Value = numericUpDown.Minimum;
                 if(resetTime)
-                    ResetTime();              
+                {
+                    //ResetTime();
+                }
+                                 
             }            
         }
 
@@ -189,6 +202,7 @@ namespace Counter
                 Height = SmallHeight;
                 DisableControls();
             }
+            DisableFeaturesUntilFurtherNotice();
         }
 
         //btnStartTime
@@ -196,34 +210,34 @@ namespace Counter
         {
             btnStartTime.Enabled = false;
             EnableTimerButtons();
-            isThreadRunning = true;
-            //begin thread
+            //isThreadRunning = true;
+            ////begin thread
             
-            timeThread.Start();
+            //timeThread.Start();
         }
 
         private void btnPause_Click(object sender, EventArgs e)
         {
             //Pause
-            if(isThreadRunning)
-            {
-                stopWatch.Stop();
-                //mre.Reset();
-                btnPause.Text = "Continue";
-                //stop timer
-                isThreadRunning = false;
+            //if(isThreadRunning)
+            //{
+            //    stopWatch.Stop();
+            //    //mre.Reset();
+            //    btnPause.Text = "Continue";
+            //    //stop timer
+            //    isThreadRunning = false;
                 
-            }
-            else
-            {
-                btnPause.Text = "Pause";
-                //resume timer
-                //mre.Set();
-                isThreadRunning = true;
-                stopWatch.Start();
+            //}
+            //else
+            //{
+            //    btnPause.Text = "Pause";
+            //    //resume timer
+            //    //mre.Set();
+            //    isThreadRunning = true;
+            //    stopWatch.Start();
 
-                timeThread.Start();
-            }
+            //    timeThread.Start();
+            //}
 
         }
 
@@ -232,16 +246,16 @@ namespace Counter
             
             DisableTimerButtons();
             //end thread
-            stopWatch.Reset();
+                //stopWatch.Reset();
             //mre.Reset();
             //mre.Close();
-            isThreadRunning = false;
+                //isThreadRunning = false;
             btnStartTime.Enabled = true;
         }
 
         private void SaveAsTextFile()
         {
-            string fileName = $"{numericUpDown.Value} - {txtReason.Text}";
+            string fileName = $"{numericUpDown.Value}-{txtReason.Text}";
             save.FileName = fileName;
 
             if (save.ShowDialog() == DialogResult.OK)
@@ -253,7 +267,7 @@ namespace Counter
                         st.WriteLine(fileName);
                         if(chkMoreTools.Checked)
                         {
-                            st.WriteLine(lblTimer.Text);
+                            //st.WriteLine(lblTimer.Text);
                             foreach (var aa in listAnnotations.Items)
                                 st.WriteLine(aa);
                         }
@@ -276,13 +290,19 @@ namespace Counter
                 {
                     if(r.ReadLine() != null)
                     {
+                        line = r.ReadLine();
+                        //It's not getting the first line of the file...
+                        string counter = line.Trim('-');
+                        counter = counter.Remove(counter.Length - 1);
+                        numericUpDown.Value = Convert.ToDecimal(counter);
+                        txtReason.Text = line;
                         if (chkMoreTools.Checked)
                         {
-                            line = r.ReadLine();
-                            txtReason.Text = line;
+
                             //I don't think there's a way for me to put the exact time
                             //from the label into the Stopwatch instance
-                            r.ReadLine(); //skipping the label
+                           // r.ReadLine(); //skipping the label
+                          
                             while (line != null)
                             {
                                 line = r.ReadLine();
@@ -290,11 +310,7 @@ namespace Counter
                                     listAnnotations.Items.Add(line);
                             }
                         }
-                        else
-                        {
-                            line = r.ReadLine();
-                            txtReason.Text = line;
-                        }
+                        
                     }
                     r.Close();
                 }
@@ -317,6 +333,11 @@ namespace Counter
         {
             int nItems = listAnnotations.Height / listAnnotations.ItemHeight;
             listAnnotations.TopIndex = listAnnotations.Items.Count - nItems;
+        }
+
+        private void btnClearList_Click(object sender, EventArgs e)
+        {
+            listAnnotations.Items.Clear();
         }
     }
 }

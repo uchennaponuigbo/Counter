@@ -44,7 +44,7 @@ namespace Counter
         {
             if (listBox.SelectedIndex == -1)
             {
-                MessageBox.Show($"You have not selected anything in the {listBox.Tag}.", "No Selection");
+                MessageBox.Show($"You have not selected anything from the {listBox.Tag}.", "No Selection");
                 return false;
             }
             else
