@@ -2,29 +2,25 @@ using System.Diagnostics;
 
 namespace Counter
 {
-    public partial class frmCounter : Form
+    public partial class CounterForm : Form
     {
-        private const string Starting_Time = "0:00:00"; //hour, minutes, seconds
+        //private const string Starting_Time = "0:00:00"; //hour, minutes, seconds
         private readonly int FullWidth;
         private readonly int SmallWidth;
 
         private readonly int FullHeight;
         private readonly int SmallHeight;
 
-        //private Thread timeThread;
-        //private ManualResetEvent mre;
-        //private Stopwatch stopWatch;
-
-        //bool isThreadRunning;
-        public frmCounter()
+        public CounterForm()
         {
             InitializeComponent();
             //numericUpDown.Value = numericUpDown.Maximum; //testing, remove when done
-            FullWidth = 587;
-            SmallWidth = 303;
+
+            FullWidth = 623; //587
+            SmallWidth = 290; //303
 
             //set size on form start up
-            FullHeight = 374;
+            FullHeight = 375;
             SmallHeight = 331;
 
             Width = SmallWidth;
@@ -32,8 +28,8 @@ namespace Counter
 
             DisableControls();
             //Gonna scrap the timer feature. Instead, I'll use the system timer as a way to annotate the times
-            DisableFeaturesUntilFurtherNotice();
-            //Temporaily disabling the Timer feature, I don't see a need to have this in my program
+
+            //disabling the Timer feature, I don't see a need to have this in my program
             //stopWatch = new Stopwatch();
             //isThreadRunning = false;
 
@@ -41,13 +37,7 @@ namespace Counter
             //timeThread = new Thread(new ThreadStart(HandleStopWatchThread));
         }
 
-        private void DisableFeaturesUntilFurtherNotice()
-        {
-            groupBox2.Enabled = false;
-            chkAnnotateTime.Enabled = false;
-            btnResetAll.Enabled = false;
-            fileToolStripMenuItem.Enabled = false;
-        }
+        
 
         //private void ResetTime()
         //{
@@ -88,27 +78,29 @@ namespace Counter
         private void EnableControls()
         {
             groupBox1.Enabled = true;
-            groupBox2.Enabled = true;
-            btnResetAll.Enabled = true;
+            txtListIndex.Enabled = true;
+            btnEditList.Enabled = true;
+            //groupBox2.Enabled = true;
 
-            DisableTimerButtons();
+            //DisableTimerButtons();
         }
-        private void DisableTimerButtons()
-        {
-            btnPause.Enabled = false;
-            btnResetTimer.Enabled = false;
-        }
+        //private void DisableTimerButtons()
+        //{
+        //    btnPause.Enabled = false;
+        //    btnResetTimer.Enabled = false;
+        //}
 
-        private void EnableTimerButtons()
-        {
-            btnPause.Enabled = true;
-            btnResetTimer.Enabled = true;
-        }
+        //private void EnableTimerButtons()
+        //{
+        //    btnPause.Enabled = true;
+        //    btnResetTimer.Enabled = true;
+        //}
         private void DisableControls()
         {
             groupBox1.Enabled = false;
-            groupBox2.Enabled = false;
-            btnResetAll.Enabled = false;
+            //groupBox2.Enabled = false;
+            txtListIndex.Enabled = false;
+            btnEditList.Enabled = false;
         }
 
         private void ClearFields(bool resetAll = false, 
@@ -119,13 +111,14 @@ namespace Counter
                 txtReason.Text = "";                
                 txtAnnotate.Text = "";
                 txtSetCount.Text = "";
+                txtListIndex.Text = "";
 
                 listAnnotations.Items.Clear();
                 numericUpDown.Value = numericUpDown.Minimum;
 
                 //ResetTime();
-                btnStartTime.Enabled = true;
-                DisableTimerButtons();
+                //btnStartTime.Enabled = true;
+                //DisableTimerButtons();
             }
             else
             {
@@ -158,7 +151,7 @@ namespace Counter
         private void btnAnnotate_Click(object sender, EventArgs e)
         {
             string text = chkAnnotateTime.Checked ? 
-                $"{numericUpDown.Value} - {lblTimer.Text} | {txtAnnotate.Text}"
+                $"{numericUpDown.Value} - {DateTime.Now} | {txtAnnotate.Text}"
                 : $"{numericUpDown.Value} - {txtAnnotate.Text}";
 
             listAnnotations.Items.Add(text);
@@ -202,61 +195,59 @@ namespace Counter
                 Height = SmallHeight;
                 DisableControls();
             }
-            DisableFeaturesUntilFurtherNotice();
         }
 
-        //btnStartTime
-        private void button1_Click(object sender, EventArgs e)
-        {
-            btnStartTime.Enabled = false;
-            EnableTimerButtons();
-            //isThreadRunning = true;
-            ////begin thread
+        ////btnStartTime
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    btnStartTime.Enabled = false;
+        //    EnableTimerButtons();
+        //    //isThreadRunning = true;
+        //    ////begin thread
             
-            //timeThread.Start();
-        }
+        //    //timeThread.Start();
+        //}
 
-        private void btnPause_Click(object sender, EventArgs e)
-        {
-            //Pause
-            //if(isThreadRunning)
-            //{
-            //    stopWatch.Stop();
-            //    //mre.Reset();
-            //    btnPause.Text = "Continue";
-            //    //stop timer
-            //    isThreadRunning = false;
-                
-            //}
-            //else
-            //{
-            //    btnPause.Text = "Pause";
-            //    //resume timer
-            //    //mre.Set();
-            //    isThreadRunning = true;
-            //    stopWatch.Start();
+        //private void btnPause_Click(object sender, EventArgs e)
+        //{
+        //    //Pause
+        //    //if(isThreadRunning)
+        //    //{
+        //    //    stopWatch.Stop();
+        //    //    //mre.Reset();
+        //    //    btnPause.Text = "Continue";
+        //    //    //stop timer
+        //    //    isThreadRunning = false;
 
-            //    timeThread.Start();
-            //}
+        //    //}
+        //    //else
+        //    //{
+        //    //    btnPause.Text = "Pause";
+        //    //    //resume timer
+        //    //    //mre.Set();
+        //    //    isThreadRunning = true;
+        //    //    stopWatch.Start();
 
-        }
+        //    //    timeThread.Start();
+        //    //}
 
-        private void btnResetTimer_Click(object sender, EventArgs e)
-        {
-            
-            DisableTimerButtons();
-            //end thread
-                //stopWatch.Reset();
-            //mre.Reset();
-            //mre.Close();
-                //isThreadRunning = false;
-            btnStartTime.Enabled = true;
-        }
+        //}
+
+        //private void btnResetTimer_Click(object sender, EventArgs e)
+        //{
+
+        //    DisableTimerButtons();
+        //    //end thread
+        //    //stopWatch.Reset();
+        //    //mre.Reset();
+        //    //mre.Close();
+        //    //isThreadRunning = false;
+        //    btnStartTime.Enabled = true;
+        //}
 
         private void SaveAsTextFile()
-        {
-            string fileName = $"{numericUpDown.Value}-{txtReason.Text}";
-            save.FileName = fileName;
+        {           
+            save.FileName = $"{numericUpDown.Value} - {txtReason.Text}";
 
             if (save.ShowDialog() == DialogResult.OK)
             {
@@ -264,7 +255,8 @@ namespace Counter
                 {
                     using (StreamWriter st = new StreamWriter(S))
                     {
-                        st.WriteLine(fileName);
+                        st.WriteLine(numericUpDown.Value);
+                        st.WriteLine(txtReason.Text);
                         if(chkMoreTools.Checked)
                         {
                             //st.WriteLine(lblTimer.Text);
@@ -288,21 +280,23 @@ namespace Counter
             {
                 using (StreamReader r = new StreamReader(openFileDialog1.FileName))
                 {
-                    if(r.ReadLine() != null)
-                    {
+                    line = r.ReadLine();
+                    if(line != null)
+                    {                       
+                        if (!decimal.TryParse(line, out decimal x))
+                        {
+                            MessageBox.Show("Invalid file to read from!", "Error");
+                            return;
+                        }
+                            
+
+                        numericUpDown.Value = Convert.ToDecimal(line);
+
                         line = r.ReadLine();
-                        //It's not getting the first line of the file...
-                        string counter = line.Trim('-');
-                        counter = counter.Remove(counter.Length - 1);
-                        numericUpDown.Value = Convert.ToDecimal(counter);
+
                         txtReason.Text = line;
                         if (chkMoreTools.Checked)
-                        {
-
-                            //I don't think there's a way for me to put the exact time
-                            //from the label into the Stopwatch instance
-                           // r.ReadLine(); //skipping the label
-                          
+                        {                         
                             while (line != null)
                             {
                                 line = r.ReadLine();
@@ -331,13 +325,23 @@ namespace Counter
 
         private void AutoScrollListBox()
         {
-            int nItems = listAnnotations.Height / listAnnotations.ItemHeight;
-            listAnnotations.TopIndex = listAnnotations.Items.Count - nItems;
+            int items = listAnnotations.Height / listAnnotations.ItemHeight;
+            listAnnotations.TopIndex = listAnnotations.Items.Count - items;
         }
 
         private void btnClearList_Click(object sender, EventArgs e)
         {
             listAnnotations.Items.Clear();
+        }
+
+        private void listAnnotations_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FormatListBox.TextBoxtoListIndex(listAnnotations, txtListIndex);
+        }
+
+        private void btnEditList_Click(object sender, EventArgs e)
+        {
+            FormatListBox.ChangeValue(listAnnotations, txtListIndex);
         }
     }
 }

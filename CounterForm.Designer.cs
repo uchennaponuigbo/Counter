@@ -1,6 +1,6 @@
 ﻿namespace Counter
 {
-    partial class frmCounter
+    partial class CounterForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.lblTimer = new System.Windows.Forms.Label();
             this.btnAnnotate = new System.Windows.Forms.Button();
             this.txtAnnotate = new System.Windows.Forms.TextBox();
             this.listAnnotations = new System.Windows.Forms.ListBox();
@@ -39,27 +38,24 @@
             this.btnSetCount = new System.Windows.Forms.Button();
             this.btnResetAll = new System.Windows.Forms.Button();
             this.txtSetCount = new System.Windows.Forms.TextBox();
-            this.btnResetTimer = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkDecrement = new System.Windows.Forms.CheckBox();
             this.btnClearList = new System.Windows.Forms.Button();
             this.chkAnnotateTime = new System.Windows.Forms.CheckBox();
             this.btnRemoveAnnotation = new System.Windows.Forms.Button();
-            this.btnStartTime = new System.Windows.Forms.Button();
-            this.btnPause = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chkMoreTools = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.save = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.txtListIndex = new System.Windows.Forms.TextBox();
+            this.btnEditList = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -70,15 +66,6 @@
             this.label1.Size = new System.Drawing.Size(116, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Reason for Counting";
-            // 
-            // lblTimer
-            // 
-            this.lblTimer.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTimer.Location = new System.Drawing.Point(95, 11);
-            this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(105, 39);
-            this.lblTimer.TabIndex = 1;
-            this.lblTimer.Text = "0:00:00";
             // 
             // btnAnnotate
             // 
@@ -94,7 +81,7 @@
             // 
             this.txtAnnotate.Location = new System.Drawing.Point(91, 42);
             this.txtAnnotate.Name = "txtAnnotate";
-            this.txtAnnotate.Size = new System.Drawing.Size(161, 23);
+            this.txtAnnotate.Size = new System.Drawing.Size(224, 23);
             this.txtAnnotate.TabIndex = 3;
             // 
             // listAnnotations
@@ -103,9 +90,10 @@
             this.listAnnotations.ItemHeight = 15;
             this.listAnnotations.Location = new System.Drawing.Point(6, 73);
             this.listAnnotations.Name = "listAnnotations";
-            this.listAnnotations.Size = new System.Drawing.Size(246, 94);
+            this.listAnnotations.Size = new System.Drawing.Size(309, 154);
             this.listAnnotations.TabIndex = 4;
             this.listAnnotations.Tag = "Annotation List";
+            this.listAnnotations.SelectedIndexChanged += new System.EventHandler(this.listAnnotations_SelectedIndexChanged);
             // 
             // txtReason
             // 
@@ -138,6 +126,11 @@
             this.numericUpDown.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.numericUpDown.Size = new System.Drawing.Size(155, 61);
             this.numericUpDown.TabIndex = 7;
+            this.numericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // btnSetCount
             // 
@@ -151,11 +144,11 @@
             // 
             // btnResetAll
             // 
-            this.btnResetAll.Location = new System.Drawing.Point(492, 51);
+            this.btnResetAll.Location = new System.Drawing.Point(228, 235);
             this.btnResetAll.Name = "btnResetAll";
-            this.btnResetAll.Size = new System.Drawing.Size(71, 42);
+            this.btnResetAll.Size = new System.Drawing.Size(83, 25);
             this.btnResetAll.TabIndex = 9;
-            this.btnResetAll.Text = "Reset and Clear All";
+            this.btnResetAll.Text = "Clear All";
             this.btnResetAll.UseVisualStyleBackColor = true;
             this.btnResetAll.Click += new System.EventHandler(this.btnResetAll_Click);
             // 
@@ -168,16 +161,6 @@
             this.txtSetCount.TabIndex = 10;
             this.txtSetCount.Tag = "Set Count Text Box";
             // 
-            // btnResetTimer
-            // 
-            this.btnResetTimer.Location = new System.Drawing.Point(108, 53);
-            this.btnResetTimer.Name = "btnResetTimer";
-            this.btnResetTimer.Size = new System.Drawing.Size(83, 28);
-            this.btnResetTimer.TabIndex = 11;
-            this.btnResetTimer.Text = "Reset Time";
-            this.btnResetTimer.UseVisualStyleBackColor = true;
-            this.btnResetTimer.Click += new System.EventHandler(this.btnResetTimer_Click);
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.chkDecrement);
@@ -186,17 +169,18 @@
             this.groupBox1.Controls.Add(this.chkAnnotateTime);
             this.groupBox1.Controls.Add(this.btnAnnotate);
             this.groupBox1.Controls.Add(this.btnRemoveAnnotation);
+            this.groupBox1.Controls.Add(this.btnResetAll);
             this.groupBox1.Controls.Add(this.txtAnnotate);
-            this.groupBox1.Location = new System.Drawing.Point(292, 123);
+            this.groupBox1.Location = new System.Drawing.Point(274, 33);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(258, 200);
+            this.groupBox1.Size = new System.Drawing.Size(321, 264);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             // 
             // chkDecrement
             // 
             this.chkDecrement.AutoSize = true;
-            this.chkDecrement.Location = new System.Drawing.Point(108, 17);
+            this.chkDecrement.Location = new System.Drawing.Point(165, 17);
             this.chkDecrement.Name = "chkDecrement";
             this.chkDecrement.Size = new System.Drawing.Size(150, 19);
             this.chkDecrement.TabIndex = 19;
@@ -205,9 +189,9 @@
             // 
             // btnClearList
             // 
-            this.btnClearList.Location = new System.Drawing.Point(177, 173);
+            this.btnClearList.Location = new System.Drawing.Point(135, 235);
             this.btnClearList.Name = "btnClearList";
-            this.btnClearList.Size = new System.Drawing.Size(75, 25);
+            this.btnClearList.Size = new System.Drawing.Size(83, 25);
             this.btnClearList.TabIndex = 18;
             this.btnClearList.Text = "Clear List";
             this.btnClearList.UseVisualStyleBackColor = true;
@@ -218,14 +202,14 @@
             this.chkAnnotateTime.AutoSize = true;
             this.chkAnnotateTime.Location = new System.Drawing.Point(8, 17);
             this.chkAnnotateTime.Name = "chkAnnotateTime";
-            this.chkAnnotateTime.Size = new System.Drawing.Size(104, 19);
+            this.chkAnnotateTime.Size = new System.Drawing.Size(154, 19);
             this.chkAnnotateTime.TabIndex = 17;
-            this.chkAnnotateTime.Text = "Annotate Time";
+            this.chkAnnotateTime.Text = "Annotate Time and Date";
             this.chkAnnotateTime.UseVisualStyleBackColor = true;
             // 
             // btnRemoveAnnotation
             // 
-            this.btnRemoveAnnotation.Location = new System.Drawing.Point(6, 173);
+            this.btnRemoveAnnotation.Location = new System.Drawing.Point(6, 235);
             this.btnRemoveAnnotation.Name = "btnRemoveAnnotation";
             this.btnRemoveAnnotation.Size = new System.Drawing.Size(123, 25);
             this.btnRemoveAnnotation.TabIndex = 15;
@@ -233,33 +217,13 @@
             this.btnRemoveAnnotation.UseVisualStyleBackColor = true;
             this.btnRemoveAnnotation.Click += new System.EventHandler(this.btnRemoveAnnotation_Click);
             // 
-            // btnStartTime
-            // 
-            this.btnStartTime.Location = new System.Drawing.Point(6, 16);
-            this.btnStartTime.Name = "btnStartTime";
-            this.btnStartTime.Size = new System.Drawing.Size(83, 28);
-            this.btnStartTime.TabIndex = 13;
-            this.btnStartTime.Text = "Start Time";
-            this.btnStartTime.UseVisualStyleBackColor = true;
-            this.btnStartTime.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnPause
-            // 
-            this.btnPause.Location = new System.Drawing.Point(6, 53);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(83, 28);
-            this.btnPause.TabIndex = 14;
-            this.btnPause.Text = "Pause";
-            this.btnPause.UseVisualStyleBackColor = true;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(607, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(603, 24);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -306,18 +270,6 @@
             this.label2.Text = "Clicking on the numeric textbox allows you to control the values \r\nwith your keyb" +
     "oard Up and Down Arrows respectively";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.lblTimer);
-            this.groupBox2.Controls.Add(this.btnResetTimer);
-            this.groupBox2.Controls.Add(this.btnStartTime);
-            this.groupBox2.Controls.Add(this.btnPause);
-            this.groupBox2.Location = new System.Drawing.Point(291, 27);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 91);
-            this.groupBox2.TabIndex = 20;
-            this.groupBox2.TabStop = false;
-            // 
             // save
             // 
             this.save.Filter = "Text files (*.txt)|*.txt";
@@ -329,18 +281,35 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "\"Text files (*.txt)|*.txt";
             // 
-            // frmCounter
+            // txtListIndex
+            // 
+            this.txtListIndex.Location = new System.Drawing.Point(12, 304);
+            this.txtListIndex.Name = "txtListIndex";
+            this.txtListIndex.Size = new System.Drawing.Size(496, 23);
+            this.txtListIndex.TabIndex = 20;
+            // 
+            // btnEditList
+            // 
+            this.btnEditList.Location = new System.Drawing.Point(516, 303);
+            this.btnEditList.Name = "btnEditList";
+            this.btnEditList.Size = new System.Drawing.Size(75, 25);
+            this.btnEditList.TabIndex = 21;
+            this.btnEditList.Text = "Edit";
+            this.btnEditList.UseVisualStyleBackColor = true;
+            this.btnEditList.Click += new System.EventHandler(this.btnEditList_Click);
+            // 
+            // CounterForm
             // 
             this.AcceptButton = this.btnAnnotate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(607, 348);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(603, 340);
+            this.Controls.Add(this.btnEditList);
+            this.Controls.Add(this.txtListIndex);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.chkMoreTools);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtSetCount);
-            this.Controls.Add(this.btnResetAll);
             this.Controls.Add(this.btnSetCount);
             this.Controls.Add(this.numericUpDown);
             this.Controls.Add(this.btnResetCount);
@@ -350,14 +319,13 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "frmCounter";
+            this.Name = "CounterForm";
             this.Text = "Incrementer";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -366,7 +334,6 @@
         #endregion
 
         private Label label1;
-        private Label lblTimer;
         private Button btnAnnotate;
         private TextBox txtAnnotate;
         private ListBox listAnnotations;
@@ -376,10 +343,7 @@
         private Button btnSetCount;
         private Button btnResetAll;
         private TextBox txtSetCount;
-        private Button btnResetTimer;
         private GroupBox groupBox1;
-        private Button btnStartTime;
-        private Button btnPause;
         private Button btnRemoveAnnotation;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
@@ -389,9 +353,10 @@
         private Button btnClearList;
         private CheckBox chkMoreTools;
         private Label label2;
-        private GroupBox groupBox2;
         private CheckBox chkDecrement;
         private SaveFileDialog save;
         private OpenFileDialog openFileDialog1;
+        private TextBox txtListIndex;
+        private Button btnEditList;
     }
 }
